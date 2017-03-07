@@ -16,14 +16,7 @@ while true ; do
         --imaphost "$MAILSERVER" \
         --imapuser="$MAILUSER" \
         --teachonly \
-        --learnspambox="$SPAMINBOX" \
-        --spamc
-
-  isbg.py \
-        --imaphost "$MAILSERVER" \
-        --imapuser="$MAILUSER" \
-        --teachonly \
-        --learnhambox="$LEARNINBOX" \
+        --learnspambox="$LEARNINBOX" \
         --spamc
 
   isbg.py \
