@@ -13,15 +13,26 @@ while true ; do
   if [ ! -f /INIT ] ; then
 
   isbg.py \
+        --imaphost "$MAILSERVER" \
+        --imapuser="$MAILUSER" \
+        --teachonly \
+        --learnspambox="$SPAMINBOX" \
+        --spamc
+
+  isbg.py \
+        --imaphost "$MAILSERVER" \
+        --imapuser="$MAILUSER" \
+        --teachonly \
+        --learnhambox="$LEARNINBOX" \
+        --spamc
+
+  isbg.py \
   	--imaphost "$MAILSERVER" \
 	--imapuser="$MAILUSER" \
 	--imapinbox="$IMAPINBOX" \
-	--spaminbox="$SPAMINBOX" \
-	--learnspambox="$LEARNINBOX" \
-	--learnthendestroy \
+        --delete \
 	--spamc \
-	--flag \
-	--delete 
+	--verbose
 
   else
 
