@@ -1,42 +1,47 @@
 #!/bin/bash
 
-sa-learn --force-expire -D
+if [ $( ps axf | grep -c -E "[r]syslog" ) -eq 0 ] ; then
+  /etc/init.d/rsyslog start
+fi
 
-sa-update --nogpg --channel spamassassin.heinlein-support.de
-sa-update
-
-/etc/init.d/rsyslog start
-/etc/init.d/spamassassin start
+if [ $( ps axf | grep -c -E "[s]pamd" ) -eq 0 ] ; then
+  /etc/init.d/spamassassin start
+fi
 
 while true ; do
 
   if [ ! -f /INIT ] ; then
 
   isbg.py \
-        --imaphost "$MAILSERVER" \
-        --imapuser="$MAILUSER" \
-        --teachonly \
-        --learnspambox="$LEARNINBOX" \
-        --spamc
+    --ssl \
+    --teachonly \
+    --imaphost "$MAILSERVER" \
+    --imapuser="$MAILUSER" \
+    --learnspambox="$LEARNINBOX" \
+    --learnthendestroy \
+	  --noninteractive
 
   isbg.py \
-  	--imaphost "$MAILSERVER" \
-	--imapuser="$MAILUSER" \
-	--imapinbox="$IMAPINBOX" \
-        --delete \
-	--spamc \
-	--verbose
+    --ssl \
+    --flag \
+    --imaphost "$MAILSERVER" \
+	  --imapuser="$MAILUSER" \
+	  --imapinbox="$IMAPINBOX" \
+    --spaminbox="$SPAMINBOX" \
+    --noninteractive
 
   else
 
     echo "Führen Sie vor dem Einsatz des Containers folgenden Befehl aus:"
     echo "isbg.py --verbose --imaphost ${MAILSERVER} --imapuser ${MAILUSER} --savepw && rm /INIT"
 
+    sa-learn --force-expire -D
+
+    sa-update --nogpg --channel spamassassin.heinlein-support.de
+    sa-update
+
   fi
 
   sleep 60
 
 done | tee -a /var/log/spam.log
-
-
-
