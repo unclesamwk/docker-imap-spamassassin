@@ -13,7 +13,6 @@ while true ; do
   if [ ! -f /INIT ] ; then
 
   isbg.py \
-    --ssl \
     --teachonly \
     --imaphost "$MAILSERVER" \
     --imapuser="$MAILUSER" \
@@ -22,7 +21,6 @@ while true ; do
 	  --noninteractive
 
   isbg.py \
-    --ssl \
     --flag \
     --imaphost "$MAILSERVER" \
 	  --imapuser="$MAILUSER" \
