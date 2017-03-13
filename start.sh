@@ -14,17 +14,17 @@ while true ; do
 
   isbg.py \
     --teachonly \
-    --imaphost "$MAILSERVER" \
+    --imaphost="$MAILSERVER" \
     --imapuser="$MAILUSER" \
     --learnspambox="$LEARNINBOX" \
     --learnthendestroy \
-	  --noninteractive
+    --noninteractive
 
   isbg.py \
     --flag \
-    --imaphost "$MAILSERVER" \
-	  --imapuser="$MAILUSER" \
-	  --imapinbox="$IMAPINBOX" \
+    --imaphost="$MAILSERVER" \
+    --imapuser="$MAILUSER" \
+    --imapinbox="$IMAPINBOX" \
     --spaminbox="$SPAMINBOX" \
     --noninteractive
 
