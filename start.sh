@@ -37,6 +37,8 @@ while true ; do
     sa-update --nogpg --channel spamassassin.heinlein-support.de
     sa-update
 
+    rm /INIT
+
   fi
 
   sleep 60
