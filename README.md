@@ -6,10 +6,7 @@ Dies ist ein Dockercontainer der für ein bestimmtes IMAP Postfach die SPAM - Pr
 `docker build -t anyone/spamassasin`
 
 ### Start Container
-`docker run -it -d -e MAILSERVER=${HOST} -e MAILUSER=${USER} -e IMAPINBOX=${IMAPINBOX} -e SPAMINBOX=${SPAMINBOX} -e LEARNINBOX=${LEARNINBOX} --name docker-imap-spamassassin anyone/spamassasin`
-
-### Passwort setzen
-`docker exec -it docker-imap-spamassassin bash -c "isbg.py --verbose --imaphost \${MAILSERVER} --imapuser \${MAILUSER} --savepw && rm /INIT"`
+`docker run -it -d -e MAILSERVER=${HOST} -e MAILUSER=${USER} -e IMAPINBOX=${IMAPINBOX} -e SPAMINBOX=${SPAMINBOX} -e LEARNINBOX=${LEARNINBOX} -e MAILPASS=${IMAPPASSWORD}--name docker-imap-spamassassin anyone/spamassasin`
 
 ### Prüfen der Container das tut was er soll
 `docker logs -f docker-imap-spamassassin`

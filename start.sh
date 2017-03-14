@@ -16,6 +16,7 @@ while true ; do
     --teachonly \
     --imaphost="$MAILSERVER" \
     --imapuser="$MAILUSER" \
+    --imappasswd="$MAILPASS" \
     --learnspambox="$LEARNINBOX" \
     --learnthendestroy \
     --noninteractive
@@ -24,14 +25,12 @@ while true ; do
     --flag \
     --imaphost="$MAILSERVER" \
     --imapuser="$MAILUSER" \
+    --imappasswd="$MAILPASS" \
     --imapinbox="$IMAPINBOX" \
     --spaminbox="$SPAMINBOX" \
     --noninteractive
 
   else
-
-    echo "Führen Sie vor dem Einsatz des Containers folgenden Befehl aus:"
-    echo "isbg.py --verbose --imaphost ${MAILSERVER} --imapuser ${MAILUSER} --savepw && rm /INIT"
 
     sa-learn --force-expire -D
 
