@@ -18,6 +18,7 @@ while true ; do
     --imapuser="$MAILUSER" \
     --imappasswd="$MAILPASS" \
     --learnspambox="$LEARNINBOX" \
+    --learnhambox="$LEARNHAMBOX" \
     --learnthendestroy \
     --noninteractive
 
