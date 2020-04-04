@@ -1,28 +1,24 @@
-FROM ubuntu:14.04
-MAINTAINER Samuel Warkentin <s.warkentin@mittwald.de>
+FROM ubuntu
 
-# no need for confirmation
 ENV DEBIAN_FRONTEND noninteractive
 
-# set timezone
 ENV TZ=Europe/Berlin
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# ...put your own build instructions here...
-RUN apt-get -qq update
-RUN apt-get -y install spamassassin imapfilter python razor pyzor unp python-pip python-setuptools wget unzip rsyslog git
-RUN pip install --upgrade pip && pip install setuptools docopt==0.6.2
-RUN cd root && mkdir .spamassassin
-RUN cd /tmp && git clone https://gitlab.com/isbg/isbg.git && cp isbg/isbg.py /bin/ && chmod +x /bin/isbg.py && rm -rf /tmp/isbg
-ADD user_prefs /root/.spamassassin/user_prefs
-ADD default_spamassassin /etc/default/spamassassin
-ADD start.sh /start.sh
-ADD cron_spamassassin /etc/cron.daily/spamassassin
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone && \
+    apt-get -qq update && \
+    apt-get -y install spamassassin imapfilter python3 razor pyzor unp python3-pip python3-setuptools wget unzip rsyslog && \
+    pip3 install --upgrade pip && \
+    pip3 install isbg && \
+    mkdir /root/.spamassassin && \
+    apt-get autoremove --purge && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    python3 --version
 
-# Clean up APT when done.
-RUN apt-get autoremove --purge
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN touch /INIT
+COPY user_prefs /root/.spamassassin/user_prefs
+COPY default_spamassassin /etc/default/spamassassin
+COPY start.sh /start.sh
+COPY cron_spamassassin /etc/cron.daily/spamassassin
 
 CMD cron && bash /start.sh

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+touch /INIT
+
 if [ $( ps axf | grep -c -E "[r]syslog" ) -eq 0 ] ; then
   /etc/init.d/rsyslog start
 fi
@@ -10,9 +12,16 @@ fi
 
 while true ; do
 
-  if [ ! -f /INIT ] ; then
+  if [ -f /INIT ]; then
+    sa-learn --force-expire -D
 
-  isbg.py \
+    sa-update --nogpg --channel spamassassin.heinlein-support.de
+    sa-update
+
+    rm /INIT
+  fi
+
+  isbg \
     --teachonly \
     --imaphost="$MAILSERVER" \
     --imapuser="$MAILUSER" \
@@ -22,7 +31,7 @@ while true ; do
     --learnthendestroy \
     --noninteractive
 
-  isbg.py \
+  isbg \
     --flag \
     --imaphost="$MAILSERVER" \
     --imapuser="$MAILUSER" \
@@ -30,17 +39,6 @@ while true ; do
     --imapinbox="$IMAPINBOX" \
     --spaminbox="$SPAMINBOX" \
     --noninteractive
-
-  else
-
-    sa-learn --force-expire -D
-
-    sa-update --nogpg --channel spamassassin.heinlein-support.de
-    sa-update
-
-    rm /INIT
-
-  fi
 
   sleep 60
 
